@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Druva S — AI Engineer & Prompt Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#06080c;--surface:#0b0f17;--card:#0f1520;--border:#1a2535;
+  --accent:#00c8ff;--accent2:#7c5cfc;--accent3:#00e87a;
+  --text:#dde6f0;--muted:#6b7d8f;--red:#ff4d6d;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.35;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:16px 60px;background:rgba(6,8,12,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:1rem;color:var(--accent);letter-spacing:3px;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:1px;transition:color .2s;text-transform:uppercase;}
+.nav-links a:hover{color:var(--accent);}
+.btn-nav{border:1px solid var(--accent);color:var(--accent);padding:7px 18px;font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:1px;text-decoration:none;transition:all .2s;background:transparent;cursor:pointer;}
+.btn-nav:hover{background:var(--accent);color:#000;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.2;}
+.glow1{position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,200,255,.07) 0%,transparent 70%);pointer-events:none;}
+.glow2{position:absolute;bottom:-200px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(124,92,252,.06) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;}
+.hero-tag{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent3);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.hero-tag::before{content:'';width:30px;height:1px;background:var(--accent3);}
+.hero h1{font-size:clamp(3rem,7vw,6rem);font-weight:800;line-height:1;letter-spacing:-2px;margin-bottom:16px;}
+.hero h1 span{color:var(--accent);}
+.hero-role{font-family:'Space Mono',monospace;font-size:1rem;color:var(--muted);margin-bottom:28px;letter-spacing:2px;}
+.hero-role em{color:var(--accent2);font-style:normal;}
+.hero-summary{max-width:600px;font-size:1.05rem;line-height:1.8;color:var(--muted);margin-bottom:40px;}
+.hero-summary strong{color:var(--text);}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--accent);color:#000;padding:12px 28px;font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:1px;text-decoration:none;font-weight:700;transition:all .2s;border:none;cursor:pointer;}
+.btn-primary:hover{background:#00a8d6;}
+.btn-ghost{border:1px solid var(--border);color:var(--text);padding:12px 28px;font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:1px;text-decoration:none;transition:all .2s;}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.hero-stats{display:flex;gap:48px;margin-top:60px;padding-top:40px;border-top:1px solid var(--border);}
+.stat-num{font-size:2.2rem;font-weight:800;color:var(--accent);font-family:'Space Mono',monospace;}
+.stat-label{font-size:.78rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+
+/* SECTIONS */
+section{padding:100px 60px;position:relative;}
+.sec-tag{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.sec-tag::before{content:'';width:20px;height:1px;background:var(--accent);}
+.sec-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:60px;}
+.sec-title span{color:var(--accent);}
+hr.div{border:none;border-top:1px solid var(--border);margin:0 60px;}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;}
+.skill-card{background:var(--card);border:1px solid var(--border);padding:28px;transition:border-color .2s,transform .2s;}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+.skill-icon{font-size:1.8rem;margin-bottom:14px;}
+.skill-name{font-size:.9rem;font-weight:700;color:var(--accent);margin-bottom:14px;font-family:'Space Mono',monospace;letter-spacing:1px;}
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{padding:4px 12px;font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.5px;}
+.tag.c{background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.18);color:var(--accent);}
+.tag.p{background:rgba(124,92,252,.07);border:1px solid rgba(124,92,252,.2);color:var(--accent2);}
+.tag.g{background:rgba(0,232,122,.07);border:1px solid rgba(0,232,122,.2);color:var(--accent3);}
+.tag.r{background:rgba(255,77,109,.07);border:1px solid rgba(255,77,109,.2);color:var(--red);}
+
+/* EXPERIENCE */
+.timeline{padding-left:32px;position:relative;}
+.timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(var(--accent),transparent);}
+.exp-item{position:relative;margin-bottom:60px;}
+.exp-item::before{content:'';position:absolute;left:-36px;top:8px;width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent);}
+.exp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:6px;}
+.exp-role{font-size:1.15rem;font-weight:700;}
+.exp-date{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent);background:rgba(0,200,255,.07);border:1px solid rgba(0,200,255,.15);padding:4px 12px;}
+.exp-co{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--accent2);margin-bottom:16px;}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.exp-list li{font-size:.93rem;color:var(--muted);line-height:1.7;padding-left:20px;position:relative;}
+.exp-list li::before{content:'▸';position:absolute;left:0;color:var(--accent);}
+.exp-list li strong{color:var(--text);}
+.agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:16px;}
+.agent-chip{background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.2);color:var(--accent2);padding:6px 12px;font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.5px;}
+
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;}
+.proj-card{background:var(--card);border:1px solid var(--border);padding:32px;transition:all .25s;position:relative;overflow:hidden;}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.proj-card:hover{transform:translateY(-4px);}
+.proj-card:hover::before{transform:scaleX(1);}
+.proj-sub{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent3);letter-spacing:2px;margin-bottom:10px;}
+.proj-title{font-size:1.05rem;font-weight:700;margin-bottom:12px;}
+.proj-desc{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:18px;}
+
+/* BLOG */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+.blog-card{background:var(--card);border:1px solid var(--border);padding:28px;text-decoration:none;display:block;transition:all .2s;}
+.blog-card:hover{border-color:var(--accent2);transform:translateY(-3px);}
+.blog-date{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:10px;}
+.blog-title{font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.4;}
+.blog-excerpt{font-size:.85rem;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.blog-read{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent2);letter-spacing:1px;}
+.blog-cta{margin-top:48px;text-align:center;}
+
+/* EDUCATION */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;}
+.edu-card{background:var(--card);border:1px solid var(--border);padding:28px;}
+.edu-deg{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:8px;}
+.edu-col{font-size:.9rem;color:var(--text);margin-bottom:6px;}
+.edu-meta{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);}
+
+/* CONTACT */
+.contact-wrap{max-width:580px;margin:0 auto;text-align:center;}
+.contact-wrap p{font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:36px;}
+.contact-email{font-family:'Space Mono',monospace;font-size:1rem;color:var(--accent);border:1px solid var(--border);padding:18px 36px;display:inline-block;margin-bottom:36px;text-decoration:none;transition:all .2s;}
+.contact-email:hover{border-color:var(--accent);background:rgba(0,200,255,.05);}
+.socials{display:flex;justify-content:center;gap:16px;}
+.soc-link{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:10px 20px;transition:all .2s;letter-spacing:1px;}
+.soc-link:hover{color:var(--accent);border-color:var(--accent);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 60px;display:flex;justify-content:space-between;align-items:center;}
+.foot-text{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.hero-tag{animation:fadeUp .6s ease both;}
+.hero h1{animation:fadeUp .6s .1s ease both;}
+.hero-role{animation:fadeUp .6s .2s ease both;}
+.hero-summary{animation:fadeUp .6s .3s ease both;}
+.hero-btns{animation:fadeUp .6s .4s ease both;}
+.hero-stats{animation:fadeUp .6s .5s ease both;}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .nav-links a:not(.btn-nav){display:none;}
+  .hero{padding:100px 24px 60px;}
+  section{padding:60px 24px;}
+  hr.div{margin:0 24px;}
+  .hero-stats{gap:20px;flex-wrap:wrap;}
+  footer{flex-direction:column;gap:10px;padding:20px 24px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DRUVA.S</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+    <button class="btn-nav" onclick="dlResume()">Download CV</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Open to AI Engineer &amp; Prompt Engineer roles</div>
+    <h1>DRUVA <span>S</span></h1>
+    <div class="hero-role">AI Engineer · <em>Prompt Engineer</em> · Agent Developer</div>
+    <p class="hero-summary">
+      Prompt Engineer with hands-on experience building <strong>10+ production AI agents</strong> using <strong>OpenAI GPT-4.1, GPT-4o</strong> and <strong>Anthropic Claude Sonnet/Opus</strong>. Delivered enterprise agents across finance, HR, and real estate. M.Tech in Computer Science.
+    </p>
+    <div class="hero-btns">
+      <a href="#experience" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">10+</div><div class="stat-label">Agents Delivered</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Enterprise Domains</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">LLM Platforms</div></div>
+      <div><div class="stat-num">9mo</div><div class="stat-label">Experience</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-tag">What I work with</div>
+  <div class="sec-title">Skills &amp; <span>Tech Stack</span></div>
+  <div class="skills-grid">
+
+    <div class="skill-card">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-name">Prompt Engineering</div>
+      <div class="tags">
+        <span class="tag c">Agent Instruction Writing</span>
+        <span class="tag c">System Prompt Design</span>
+        <span class="tag c">Behaviour Configuration</span>
+        <span class="tag c">Guardrails</span>
+        <span class="tag c">I/O Templates</span>
+        <span class="tag c">Knowledge Base Setup</span>
+        <span class="tag c">RAG</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-name">LLM Models</div>
+      <div class="tags">
+        <span class="tag c">OpenAI GPT-4.1</span>
+        <span class="tag c">OpenAI GPT-4o</span>
+        <span class="tag c">Claude Sonnet</span>
+        <span class="tag c">Claude Opus</span>
+        <span class="tag c">Model Selection</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">Agent Platform</div>
+      <div class="tags">
+        <span class="tag p">Phronetic AI</span>
+        <span class="tag p">Agent Builder</span>
+        <span class="tag p">Tool Integration</span>
+        <span class="tag p">Model Config</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-name">Programming &amp; Database</div>
+      <div class="tags">
+        <span class="tag g">Python</span>
+        <span class="tag g">API Calls</span>
+        <span class="tag g">Automation</span>
+        <span class="tag g">NeonDB</span>
+        <span class="tag g">SQL</span>
+        <span class="tag g">MySQL</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">☁️</div>
+      <div class="skill-name">Cloud &amp; DevOps</div>
+      <div class="tags">
+        <span class="tag r">AWS</span>
+        <span class="tag r">Jenkins (CI/CD)</span>
+        <span class="tag r">Firebase</span>
+        <span class="tag r">IPFS / Pinata</span>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🔧</div>
+      <div class="skill-name">Other Technologies</div>
+      <div class="tags">
+        <span class="tag p">React Native</span>
+        <span class="tag p">Streamlit</span>
+        <span class="tag p">Solidity</span>
+        <span class="tag p">Ethereum</span>
+        <span class="tag p">OpenCV</span>
+        <span class="tag p">TensorFlow/Keras</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-tag">Work History</div>
+  <div class="sec-title">Experience</div>
+  <div class="timeline">
+
+    <div class="exp-item">
+      <div class="exp-head">
+        <div class="exp-role">Prompt Engineer (Full-Time)</div>
+        <div class="exp-date">Dec 2025 – Feb 2026</div>
+      </div>
+      <div class="exp-co">NighthackTech · Bengaluru, Karnataka</div>
+      <ul class="exp-list">
+        <li>Built <strong>10+ AI agents</strong> on the Phronetic AI platform for enterprise clients across finance, HR, and real estate domains.</li>
+        <li>Wrote detailed <strong>agent instructions and system prompts</strong> defining agent behaviour, tone, response logic, and task workflows.</li>
+        <li>Configured agents with <strong>OpenAI GPT-4.1, GPT-4o, Claude Sonnet / Opus</strong> based on task complexity and domain needs.</li>
+        <li>Set up and managed <strong>knowledge bases</strong> with domain-specific documents, enabling contextually accurate RAG-based retrieval.</li>
+        <li>Developed <strong>Python tool code</strong> for agents — calling external APIs (finance, HR, email) and querying/storing data in NeonDB.</li>
+        <li>Configured <strong>guardrails and I/O templates</strong> to ensure consistent, reliable, and safe responses in production environments.</li>
+        <li>Collaborated with client teams to gather requirements and iterate on prompts based on real-world feedback.</li>
+        <li>Built a <strong>real estate AI agent for Vive</strong>, automating property-related user queries and interactions.</li>
+      </ul>
+      <div style="margin-top:20px;">
+        <div style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:10px;letter-spacing:2px;">AGENTS DELIVERED</div>
+        <div class="agents-grid">
+          <div class="agent-chip">Resume Shortlisting Agent</div>
+          <div class="agent-chip">InboxSense AP Agent</div>
+          <div class="agent-chip">AR Collections Agent</div>
+          <div class="agent-chip">Financial Intelligence Agent</div>
+          <div class="agent-chip">Social Media Scheduler</div>
+          <div class="agent-chip">Feature Prioritization Agent</div>
+          <div class="agent-chip">Market Snapshot Agent</div>
+          <div class="agent-chip">Ad Copy Generator</div>
+          <div class="agent-chip">Auto Response Drafting</div>
+          <div class="agent-chip">Offer Letter Generator</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-head">
+        <div class="exp-role">Frontend Developer Intern</div>
+        <div class="exp-date">May 2025 – Nov 2025</div>
+      </div>
+      <div class="exp-co">NighthackTech · Bengaluru, Karnataka</div>
+      <ul class="exp-list">
+        <li>Built web interfaces for the <strong>Talkument project</strong> using React Native alongside the AI engineering and product teams.</li>
+        <li>Transitioned into Prompt Engineer role after demonstrating strong aptitude in <strong>agent design and LLM configuration</strong>.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-tag">What I've built</div>
+  <div class="sec-title">Projects</div>
+  <div class="proj-grid">
+
+    <div class="proj-card">
+      <div class="proj-sub">M.TECH PROJECT</div>
+      <div class="proj-title">Certificate Validation System Using Blockchain</div>
+      <div class="proj-desc">Built a decentralized application (DApp) for tamper-proof digital certificate issuance and verification on the Ethereum blockchain using Solidity smart contracts. Stored certificate files on IPFS via Pinata; developed a Streamlit web interface with Firebase Authentication for institutions and verifiers.</div>
+      <div class="tags">
+        <span class="tag c">Python</span>
+        <span class="tag p">Solidity</span>
+        <span class="tag p">Ethereum</span>
+        <span class="tag g">IPFS</span>
+        <span class="tag g">Pinata</span>
+        <span class="tag r">Firebase</span>
+        <span class="tag c">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-sub">B.E PROJECT</div>
+      <div class="proj-title">Human Facial Emotion Detection</div>
+      <div class="proj-desc">Built a CNN-based deep learning model classifying facial emotions (happy, sad, angry, neutral, surprised, fearful) from images and live video streams. Integrated OpenCV for real-time detection; applied face detection, augmentation, and normalization to improve model accuracy.</div>
+      <div class="tags">
+        <span class="tag c">Python</span>
+        <span class="tag p">TensorFlow/Keras</span>
+        <span class="tag g">OpenCV</span>
+        <span class="tag c">CNN</span>
+        <span class="tag c">NumPy</span>
+        <span class="tag c">Pandas</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="sec-tag">My Writing</div>
+  <div class="sec-title">Blog <span>Posts</span></div>
+  <div class="blog-grid">
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/archsetupsteps" target="_blank">
+      <div class="blog-date">July 19, 2025</div>
+      <div class="blog-title">GNOME Setup Requirements</div>
+      <div class="blog-excerpt">Setting up GNOME terminal with dbus, vte3, gnome-shell on Arch Linux — step by step configuration guide.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/omarchy" target="_blank">
+      <div class="blog-date">July 18, 2025</div>
+      <div class="blog-title">Omarchy Installation</div>
+      <div class="blog-excerpt">Omarchy is built on Arch Linux powered by Hyprland — the wayland compositor known for slick animations and tiling magic.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/archlinux" target="_blank">
+      <div class="blog-date">July 16, 2025</div>
+      <div class="blog-title">Manual Arch Linux Boot &amp; Install (No GUI)</div>
+      <div class="blog-excerpt">A complete guide to manually installing Arch Linux — the minimalist, highly customizable DIY Linux distro from scratch.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/zustand-redux" target="_blank">
+      <div class="blog-date">July 15, 2025</div>
+      <div class="blog-title">What is Zustand and Redux?</div>
+      <div class="blog-excerpt">Deep dive into Zustand — the lightweight hooks-based state management library and how it compares to Redux.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/statemanagerreactquery" target="_blank">
+      <div class="blog-date">July 15, 2025</div>
+      <div class="blog-title">State Manager (React Query)</div>
+      <div class="blog-excerpt">Understanding client vs server state in React and why React Query is the best tool for server state management.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+    <a class="blog-card" href="https://mrdruv0005.netlify.app/blog/xss-blog" target="_blank">
+      <div class="blog-date">May 23, 2025</div>
+      <div class="blog-title">How I Built a Secure To-Do App with XSS Protection</div>
+      <div class="blog-excerpt">Building a plain JavaScript to-do app and securing it against Cross-Site Scripting (XSS) attacks from scratch.</div>
+      <div class="blog-read">Read more →</div>
+    </a>
+
+  </div>
+  <div class="blog-cta">
+    <a href="https://mrdruv0005.netlify.app/blog/" target="_blank" class="btn-ghost">View All Blog Posts →</a>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-tag">Academic Background</div>
+  <div class="sec-title">Education</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-deg">M.Tech in Computer Science</div>
+      <div class="edu-col">Vidya Vardhaka College of Engineering, Mysuru</div>
+      <div class="edu-meta">Feb 2023 – May 2025 &nbsp;·&nbsp; CGPA: 7.8</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-deg">B.E in Computer Science</div>
+      <div class="edu-col">ATME College of Engineering, Mysuru</div>
+      <div class="edu-meta">Aug 2017 – Jun 2022 &nbsp;·&nbsp; CGPA: 6.63</div>
+    </div>
+  </div>
+</section>
+
+<hr class="div"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-tag" style="justify-content:center;">Let's connect</div>
+    <div class="sec-title" style="text-align:center;">Get In <span>Touch</span></div>
+    <p>Open to AI Engineer, Prompt Engineer, and Agent Developer roles — full-time or freelance. Let's build something great together.</p>
+    <a href="mailto:druv0806@gmail.com" class="contact-email">druv0806@gmail.com</a>
+    <div class="socials">
+      <a href="https://github.com/MrDruv" target="_blank" class="soc-link">GitHub</a>
+      <a href="https://mrdruv0005.netlify.app/blog/" target="_blank" class="soc-link">Blog</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-text">© 2026 Druva S — Built with purpose.</div>
+  <div class="foot-text">AI Engineer · Prompt Engineer · Agent Developer</div>
+</footer>
+
+<script>
+function dlResume(){
+  const txt=`DRUVA S
++91 8088059553 | druv0806@gmail.com | github.com/MrDruv | Bengaluru, Karnataka, India
+
+PROFESSIONAL SUMMARY
+Prompt Engineer with hands-on experience building AI agents on the Phronetic AI platform using OpenAI and Anthropic models. Skilled in writing agent instructions, configuring knowledge bases, and developing Python tool code that calls external APIs and interacts with databases. Delivered 10+ agents for enterprise clients across finance, HR, and real estate. M.Tech in Computer Science with strong Python and SQL skills.
+
+WORK EXPERIENCE
+
+Prompt Engineer (Full-Time) | NighthackTech, Bengaluru | Dec 2025 – Feb 2026
+• Built 10+ AI agents on the Phronetic AI platform for enterprise clients across finance, HR, and real estate.
+• Wrote detailed agent instructions and system prompts defining agent behaviour, tone, response logic, and task workflows.
+• Configured agents with OpenAI GPT-4.1, GPT-4o, Anthropic Claude Sonnet / Opus.
+• Set up and managed knowledge bases with domain-specific documents for RAG-based retrieval.
+• Developed Python tool code for agents — calling external APIs and querying/storing data in NeonDB.
+• Designed I/O templates and configured guardrails for consistent and safe production responses.
+• Agents: Resume Shortlisting, InboxSense AP Agent, AR Collections, Financial Intelligence Dashboard, Social Media Scheduler, Feature Prioritization, Market Snapshot, Ad Copy Generator, Auto Response Drafting, Offer Letter Generator.
+• Built real estate AI agent for Vive, automating property-related user queries.
+
+Frontend Developer Intern | NighthackTech, Bengaluru | May 2025 – Nov 2025
+• Built web interfaces for the Talkument project using React Native.
+• Transitioned into Prompt Engineer role after demonstrating strong aptitude in agent design and LLM configuration.
+
+TECHNICAL SKILLS
+Prompt Engineering: Agent instruction writing, system prompt design, behaviour configuration, guardrails, I/O templates, RAG
+Agent Platform: Phronetic AI — agent builder, knowledge base setup, model configuration, tool integration
+LLM Models: OpenAI GPT-4.1, GPT-4o | Anthropic Claude Sonnet, Claude Opus
+Python: External API calls, database queries, scripting, automation
+Database: NeonDB (Serverless Postgres), SQL, MySQL
+Cloud & DevOps: AWS, Jenkins (CI/CD), Firebase, IPFS / Pinata
+Other: React Native, Streamlit, Solidity, Ethereum, OpenCV, TensorFlow/Keras
+
+PROJECTS
+
+Certificate Validation System Using Blockchain | M.Tech Project
+• Built a DApp for tamper-proof digital certificate issuance and verification on Ethereum using Solidity smart contracts.
+• Stored files on IPFS via Pinata; built Streamlit interface with Firebase Authentication.
+Technologies: Python, Solidity, Ethereum, IPFS, Pinata, Firebase, Streamlit
+
+Human Facial Emotion Detection | B.E Project
+• Built CNN-based model classifying facial emotions from images and live video streams.
+• Integrated OpenCV for real-time detection with face detection, augmentation, and normalization.
+Technologies: Python, TensorFlow/Keras, OpenCV, CNN, NumPy, Pandas
+
+EDUCATION
+M.Tech in Computer Science | CGPA: 7.8 | Feb 2023 – May 2025
+Vidya Vardhaka College of Engineering, Mysuru
+
+B.E in Computer Science | CGPA: 6.63 | Aug 2017 – Jun 2022
+ATME College of Engineering, Mysuru`;
+  const b=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='Druva_S_Resume.txt';
+  a.click();
+}
+</script>
+</body>
+</html>
